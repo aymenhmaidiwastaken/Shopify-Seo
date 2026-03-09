@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopifySEO Pro</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <img src="../../icons/icon-32.png" width="24" height="24" alt="ShopifySEO Pro">
+        <span class="logo-text">ShopifySEO <span class="pro-badge">PRO</span></span>
+      </div>
+      <button id="settingsBtn" class="icon-btn" title="Settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="state-container">
+      <div class="spinner"></div>
+      <p class="state-text">Analyzing page...</p>
+      <p class="state-sub">Running 20+ SEO checks</p>
+    </div>
+
+    <!-- Initial State -->
+    <div id="initialState" class="state-container" style="display: none;">
+      <div class="initial-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#5E5CE6" stroke-width="1.5">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+      </div>
+      <p class="state-text">Ready to Analyze</p>
+      <p class="state-sub">Click the button below to run a full SEO analysis</p>
+      <button id="analyzeBtn" class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+        Run Analysis
+      </button>
+    </div>
+
+    <!-- Results -->
+    <div id="resultsState" style="display: none;">
+      <!-- Shopify Badge -->
+      <div id="shopifyBadge" class="badge shopify-badge" style="display: none;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M15.34 2.61c-.07-.35-.38-.6-.72-.63-.33-.03-6.78-.49-6.78-.49s-4.5-4.49-4.97-4.96c-.47-.47-.97-.15-.97-.15L.47 2.11S.09 2.37.02 2.68c-.07.3-.01.76-.01.76S3.48 22 3.56 22.35c.08.35.35.65.35.65s.37.12.57.06"/>
+        </svg>
+        <span id="shopifyBadgeText">Shopify Store Detected</span>
+      </div>
+
+      <!-- Score Gauge -->
+      <div class="score-section">
+        <div class="gauge-container">
+          <svg class="gauge" viewBox="0 0 120 120">
+            <circle class="gauge-bg" cx="60" cy="60" r="52" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+            <circle id="gaugeArc" class="gauge-arc" cx="60" cy="60" r="52" fill="none" stroke="#22c55e" stroke-width="8"
+              stroke-dasharray="326.73" stroke-dashoffset="326.73" stroke-linecap="round"
+              transform="rotate(-90 60 60)"/>
+          </svg>
+          <div class="gauge-center">
+            <span id="scoreValue" class="score-value">0</span>
+            <span id="scoreGrade" class="score-grade">-</span>
+          </div>
+        </div>
+        <div id="pageTypeLabel" class="page-type-label"></div>
+      </div>
+
+      <!-- Issue Summary -->
+      <div class="issue-summary">
+        <div class="issue-stat critical">
+          <span id="criticalCount" class="stat-count">0</span>
+          <span class="stat-label">Critical</span>
+        </div>
+        <div class="issue-stat warning">
+          <span id="warningCount" class="stat-count">0</span>
+          <span class="stat-label">Warnings</span>
+        </div>
+        <div class="issue-stat info">
+          <span id="infoCount" class="stat-count">0</span>
+          <span class="stat-label">Info</span>
+        </div>
+        <div class="issue-stat pass">
+          <span id="passCount" class="stat-count">0</span>
+          <span class="stat-label">Passed</span>
+        </div>
+      </div>
+
+      <!-- Category Scores -->
+      <div class="category-scores" id="categoryScores"></div>
+
+      <!-- Top Issues -->
+      <div class="top-issues">
+        <h3 class="section-title">Top Issues</h3>
+        <div id="topIssuesList" class="issue-list"></div>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions">
+        <button id="openPanelBtn" class="btn-primary full-width">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/>
+          </svg>
+          Open Full Analysis
+        </button>
+        <div class="action-row">
+          <button id="exportCSVBtn" class="btn-secondary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Export CSV
+          </button>
+          <button id="reanalyzeBtn" class="btn-secondary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/>
+            </svg>
+            Re-analyze
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="state-container" style="display: none;">
+      <div class="error-icon">!</div>
+      <p class="state-text">Analysis Failed</p>
+      <p id="errorMessage" class="state-sub">Something went wrong.</p>
+      <button id="retryBtn" class="btn-primary">Try Again</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

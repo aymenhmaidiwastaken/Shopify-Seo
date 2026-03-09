@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopifySEO Pro - Analysis</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="sp-header">
+      <div class="sp-logo">
+        <img src="../../icons/icon-32.png" width="20" height="20" alt="ShopifySEO Pro">
+        <span>ShopifySEO <span class="pro-badge">PRO</span></span>
+      </div>
+      <div class="sp-header-actions">
+        <button id="spPdfBtn" class="sp-icon-btn" title="Export PDF Report">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+          </svg>
+        </button>
+        <button id="spExportBtn" class="sp-icon-btn" title="Export CSV">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </button>
+        <button id="spRefreshBtn" class="sp-icon-btn" title="Re-analyze">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Loading -->
+    <div id="spLoading" class="sp-loading">
+      <div class="spinner"></div>
+      <p>Analyzing page...</p>
+    </div>
+
+    <!-- No Data -->
+    <div id="spNoData" class="sp-no-data" style="display: none;">
+      <p>No analysis data available.</p>
+      <p class="dim">Open the popup and run an analysis first, then open this panel.</p>
+      <button id="spAnalyzeBtn" class="sp-btn-primary">Run Analysis</button>
+    </div>
+
+    <!-- Main Content -->
+    <div id="spContent" style="display: none;">
+      <!-- Tab Navigation -->
+      <nav class="sp-tabs" id="spTabs">
+        <button class="sp-tab active" data-tab="overview">Overview</button>
+        <button class="sp-tab" data-tab="meta">Meta</button>
+        <button class="sp-tab" data-tab="content">Content</button>
+        <button class="sp-tab" data-tab="technical">Technical</button>
+        <button class="sp-tab" data-tab="images">Images</button>
+        <button class="sp-tab" data-tab="links">Links</button>
+        <button class="sp-tab" data-tab="shopify">Shopify</button>
+        <button class="sp-tab" data-tab="performance">Speed</button>
+        <button class="sp-tab" data-tab="history">History</button>
+        <button class="sp-tab" data-tab="crawler">Crawler</button>
+        <button class="sp-tab" data-tab="compare">Compare</button>
+        <button class="sp-tab" data-tab="linkmap">Link Map</button>
+        <button class="sp-tab" data-tab="rank">Rank</button>
+      </nav>
+
+      <!-- Tab Content Panels -->
+      <div class="sp-tab-content">
+        <!-- OVERVIEW TAB -->
+        <div class="sp-panel active" id="panel-overview">
+          <div class="sp-score-hero">
+            <div class="sp-gauge-wrap">
+              <svg class="sp-gauge" viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="52" fill="none" stroke="#2a2a3a" stroke-width="8" opacity="0.3"/>
+                <circle id="spGaugeArc" cx="60" cy="60" r="52" fill="none" stroke="#22c55e" stroke-width="8"
+                  stroke-dasharray="326.73" stroke-dashoffset="326.73" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+              </svg>
+              <div class="sp-gauge-text">
+                <span id="spScoreValue" class="sp-score-num">0</span>
+                <span id="spScoreGrade" class="sp-score-grade">-</span>
+              </div>
+            </div>
+            <div class="sp-score-meta">
+              <div id="spPageInfo" class="sp-page-info"></div>
+              <div id="spShopifyInfo" class="sp-shopify-info"></div>
+            </div>
+          </div>
+
+          <div class="sp-stats-grid" id="spStatsGrid"></div>
+
+          <h3 class="sp-section-title">Category Breakdown</h3>
+          <div id="spCategoryBars" class="sp-category-bars"></div>
+
+          <h3 class="sp-section-title">All Issues</h3>
+          <div class="sp-filter-bar">
+            <button class="sp-filter active" data-filter="all">All</button>
+            <button class="sp-filter" data-filter="critical">Critical</button>
+            <button class="sp-filter" data-filter="warning">Warnings</button>
+            <button class="sp-filter" data-filter="info">Info</button>
+            <button class="sp-filter" data-filter="pass">Passed</button>
+          </div>
+          <div id="spAllIssues" class="sp-issues-list"></div>
+        </div>
+
+        <!-- META TAB -->
+        <div class="sp-panel" id="panel-meta">
+          <h3 class="sp-section-title">SERP Preview</h3>
+          <div id="serpPreview" class="serp-preview"></div>
+
+          <h3 class="sp-section-title">Social Preview</h3>
+          <div id="socialPreview" class="social-preview"></div>
+
+          <h3 class="sp-section-title">Meta Tag Details</h3>
+          <div id="metaDetails" class="sp-details-list"></div>
+
+          <h3 class="sp-section-title">Issues</h3>
+          <div id="metaIssues" class="sp-issues-list"></div>
+        </div>
+
+        <!-- CONTENT TAB -->
+        <div class="sp-panel" id="panel-content">
+          <h3 class="sp-section-title">Content Statistics</h3>
+          <div id="contentStats" class="sp-stats-grid"></div>
+
+          <h3 class="sp-section-title">Heading Structure</h3>
+          <div id="headingTree" class="heading-tree"></div>
+
+          <h3 class="sp-section-title">Top Keywords</h3>
+          <div id="keywordTable" class="keyword-table"></div>
+
+          <h3 class="sp-section-title">Issues</h3>
+          <div id="contentIssues" class="sp-issues-list"></div>
+        </div>
+
+        <!-- TECHNICAL TAB -->
+        <div class="sp-panel" id="panel-technical">
+          <h3 class="sp-section-title">Technical Details</h3>
+          <div id="technicalDetails" class="sp-details-list"></div>
+
+          <h3 class="sp-section-title">Structured Data</h3>
+          <div id="schemaViewer" class="schema-viewer"></div>
+
+          <h3 class="sp-section-title">Issues</h3>
+          <div id="technicalIssues" class="sp-issues-list"></div>
+        </div>
+
+        <!-- IMAGES TAB -->
+        <div class="sp-panel" id="panel-images">
+          <h3 class="sp-section-title">Image Overview</h3>
+          <div id="imageStats" class="sp-stats-grid"></div>
+
+          <h3 class="sp-section-title">Image Audit</h3>
+          <div id="imageAudit" class="image-audit"></div>
+
+          <h3 class="sp-section-title">Issues</h3>
+          <div id="imageIssues" class="sp-issues-list"></div>
+        </div>
+
+        <!-- LINKS TAB -->
+        <div class="sp-panel" id="panel-links">
+          <h3 class="sp-section-title">Link Overview</h3>
+          <div id="linkStats" class="sp-stats-grid"></div>
+
+          <h3 class="sp-section-title">External Domains</h3>
+          <div id="externalDomains" class="sp-details-list"></div>
+
+          <h3 class="sp-section-title">Issues</h3>
+          <div id="linkIssues" class="sp-issues-list"></div>
+        </div>
+
+        <!-- SHOPIFY TAB -->
+        <div class="sp-panel" id="panel-shopify">
+          <div id="shopifyNotDetected" style="display: none;">
+            <div class="sp-empty-state">
+              <p>This doesn't appear to be a Shopify store.</p>
+              <p class="dim">Shopify-specific checks are only available on Shopify-powered sites.</p>
+            </div>
+          </div>
+          <div id="shopifyContent">
+            <h3 class="sp-section-title">Shopify Store Details</h3>
+            <div id="shopifyDetails" class="sp-details-list"></div>
+
+            <h3 class="sp-section-title">Issues</h3>
+            <div id="shopifyIssues" class="sp-issues-list"></div>
+          </div>
+        </div>
+
+        <!-- PERFORMANCE TAB -->
+        <div class="sp-panel" id="panel-performance">
+          <h3 class="sp-section-title">Core Web Vitals</h3>
+          <div id="cwvMetrics" class="cwv-grid"></div>
+
+          <h3 class="sp-section-title">Performance Metrics</h3>
+          <div id="perfStats" class="sp-stats-grid"></div>
+
+          <h3 class="sp-section-title">Issues</h3>
+          <div id="perfIssues" class="sp-issues-list"></div>
+        </div>
+
+        <!-- HISTORY TAB -->
+        <div class="sp-panel" id="panel-history">
+          <div id="historyTrend" class="history-trend"></div>
+          <h3 class="sp-section-title">Score History</h3>
+          <div id="historyChart" class="history-chart"></div>
+          <div id="historyList" class="history-list"></div>
+          <button id="clearHistoryBtn" class="sp-btn-secondary" style="margin-top: 12px;">Clear History</button>
+        </div>
+
+        <!-- CRAWLER TAB -->
+        <div class="sp-panel" id="panel-crawler">
+          <div class="crawler-controls">
+            <p class="dim">Crawl your entire site to find SEO issues across all pages.</p>
+            <button id="startCrawlBtn" class="sp-btn-primary" style="margin-top: 12px;">Start Site Crawl</button>
+            <div id="crawlProgress" style="display:none;">
+              <div class="crawl-progress-bar"><div id="crawlProgressFill" class="crawl-progress-fill"></div></div>
+              <span id="crawlProgressText" class="dim">0/0 pages</span>
+            </div>
+          </div>
+          <div id="crawlResults" style="display:none;">
+            <h3 class="sp-section-title">Site Overview</h3>
+            <div id="crawlSummary" class="sp-stats-grid"></div>
+            <h3 class="sp-section-title">Page Scores</h3>
+            <div id="crawlPageList" class="crawl-page-list"></div>
+            <h3 class="sp-section-title">Common Issues Across Site</h3>
+            <div id="crawlCommonIssues" class="sp-issues-list"></div>
+          </div>
+        </div>
+
+        <!-- COMPARE TAB -->
+        <div class="sp-panel" id="panel-compare">
+          <div class="compare-input">
+            <p class="dim">Compare your page's SEO with a competitor.</p>
+            <div class="compare-url-input">
+              <input type="url" id="competitorUrl" placeholder="https://competitor.com/page" class="sp-input">
+              <button id="compareBtn" class="sp-btn-primary">Compare</button>
+            </div>
+            <div id="compareLoading" style="display:none;" class="sp-loading"><div class="spinner"></div><p>Analyzing competitor...</p></div>
+          </div>
+          <div id="compareResults" style="display:none;">
+            <h3 class="sp-section-title">Score Comparison</h3>
+            <div id="compareScores" class="compare-scores"></div>
+            <h3 class="sp-section-title">Category Breakdown</h3>
+            <div id="compareCats" class="compare-categories"></div>
+            <h3 class="sp-section-title">What They Do Better</h3>
+            <div id="compareTheyWin" class="sp-issues-list"></div>
+            <h3 class="sp-section-title">What You Do Better</h3>
+            <div id="compareYouWin" class="sp-issues-list"></div>
+          </div>
+        </div>
+
+        <!-- LINK MAP TAB -->
+        <div class="sp-panel" id="panel-linkmap">
+          <h3 class="sp-section-title">Internal Link Structure</h3>
+          <p class="dim">Visual map of internal links found on this page. Hover nodes for details, click to highlight.</p>
+          <div class="linkmap-legend">
+            <span class="linkmap-legend-item"><span class="linkmap-dot current"></span> Current Page</span>
+            <span class="linkmap-legend-item"><span class="linkmap-dot high"></span> High Links (5+)</span>
+            <span class="linkmap-legend-item"><span class="linkmap-dot medium"></span> Medium (2-4)</span>
+            <span class="linkmap-legend-item"><span class="linkmap-dot low"></span> Low (1)</span>
+          </div>
+          <div id="linkMapContainer" class="link-map-container"></div>
+          <div id="linkMapTooltip" class="linkmap-tooltip" style="display:none;"></div>
+          <h3 class="sp-section-title">Top Link Targets</h3>
+          <div id="linkMapDetails" class="sp-details-list"></div>
+          <h3 class="sp-section-title">Orphan Risk Pages</h3>
+          <p class="dim">Pages linked only once — at risk of poor discoverability.</p>
+          <div id="linkMapOrphans" class="sp-details-list"></div>
+        </div>
+
+        <!-- RANK CHECKER TAB -->
+        <div class="sp-panel" id="panel-rank">
+          <h3 class="sp-section-title">Google Rank Checker</h3>
+          <p class="dim">Check where your pages rank for specific keywords on Google.</p>
+          <div class="rank-input-group">
+            <input type="text" id="rankKeyword" placeholder="Enter keyword (e.g. 'organic cotton shirts')" class="sp-input">
+            <button id="rankCheckBtn" class="sp-btn-primary">Check Rank</button>
+          </div>
+          <div id="rankLoading" style="display:none;" class="sp-loading"><div class="spinner"></div><p>Searching Google...</p></div>
+          <div id="rankResults" style="display:none;">
+            <div id="rankPosition" class="rank-position-card"></div>
+            <h3 class="sp-section-title">Top 10 Results</h3>
+            <div id="rankSerp" class="rank-serp-list"></div>
+          </div>
+          <div id="rankHistory" style="display:none;">
+            <h3 class="sp-section-title">Keyword Tracking</h3>
+            <div id="rankHistoryList" class="rank-history-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="spToast" class="sp-toast"></div>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>
