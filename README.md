@@ -182,7 +182,7 @@ Share your findings with clients or your team.
 
 1. **Download** this repository:
    ```bash
-   git clone https://github.com/AymenTlemworked/ShopifySEO-Pro.git
+   git clone https://github.com/aymenhmaidiwastaken/Shopify-Seo.git
    ```
    Or download as ZIP and extract.
 
